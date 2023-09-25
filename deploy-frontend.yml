@@ -1,0 +1,61 @@
+--- 
+   - name: This playbook install nginx and confifure nginx for front end application
+     hosts: frontend
+     become: yes
+     tasks:
+        - name: install Nginx
+          yum: 
+            name: nginx
+            state: latest
+        - name: enable nginx service
+          systemd:
+            name: nginx
+            state: enabled
+        - name: Start nginx
+          systemd:
+            name: nginx
+            state: started
+        - name: download the application content from github
+          get_url:
+            url: https://github.com/rshaik4devops/frontend/archive/main.zip
+            dest: /tmp/frontend.zip
+        - name: delte nginx default files
+          file:
+            src: /usr/share/nginx/html/
+            state: absent
+        - name: unarchive the frontend content
+          unarchive:
+             src: /tmp/frontend.zip
+             dest: /usr/share/nginx/html/
+        - name: copy the static files
+          copy:
+            src: "{{ item }}"
+            dest: /usr/share/nginx/html
+            remote_src: true
+          loop:
+             - /usr/share/nginx/html/frontend-main/
+             - /usr/share/nginx/html/static/
+        - name: remove unneccesary files
+          file: 
+            src: "{{ item }}"
+            state: absent
+          loop:
+            - /usr/share/nginx/html/frontend-master
+            - /usr/share/nginx/html/README.md
+
+        - name: copy localhost.conf file 
+          copy:
+            src: /usr/share/nginx/html/localhost.conf
+            dest: /etc/nginx/default.d/roboshop.conf
+            remote_src: true
+        - name: restart nginx
+          systemd:
+             name: nginx
+             state: restarted
+             
+
+       
+              
+             
+
+            
