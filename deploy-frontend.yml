@@ -10,7 +10,7 @@
         - name: enable nginx service
           systemd:
             name: nginx
-            state: enabled
+            enabled: true
         - name: Start nginx
           systemd:
             name: nginx
@@ -52,7 +52,7 @@
           systemd:
              name: nginx
              state: restarted
-             
+
 
        
               
