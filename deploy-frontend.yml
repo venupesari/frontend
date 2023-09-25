@@ -21,7 +21,7 @@
             dest: /tmp/frontend.zip
         - name: delte nginx default files
           file:
-            src: /usr/share/nginx/html/
+            path: /usr/share/nginx/html/
             state: absent
         - name: unarchive the frontend content
           unarchive:
