@@ -38,7 +38,7 @@
              - /usr/share/nginx/html/static/
         - name: remove unneccesary files
           file: 
-            src: "{{ item }}"
+            path: "{{ item }}"
             state: absent
           loop:
             - /usr/share/nginx/html/frontend-master
