@@ -27,6 +27,7 @@
           unarchive:
              src: /tmp/frontend.zip
              dest: /usr/share/nginx/html/
+             remote_src: True
         - name: copy the static files
           copy:
             src: "{{ item }}"
